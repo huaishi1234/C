@@ -123,7 +123,7 @@ int main() {
     printf("请输入图的边数量: ");
     scanf("%d", &e);
 
-    printf("请输入每条边的两个顶点 (格式: src dest):\n");
+    printf("请输入每条边的两个顶点 (格式: 起点 目标):\n");
     for (int i = 0; i < e; i++) {
         int src, dest;
         scanf("%d %d", &src, &dest);
