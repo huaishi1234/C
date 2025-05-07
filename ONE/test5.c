@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // 交换两个元素的值
 void swap(int* a, int* b) {
@@ -10,11 +11,10 @@ void swap(int* a, int* b) {
 // 快速排序函数
 void quickSort(int arr[], int low, int high, int* swapCount) {
     if (low < high) {  
-        int pivot = arr[high];// 选择最后一个元素作为标准
+        int pivot = arr[high]; // 选择最后一个元素作为标准
         int i = (low - 1); // 较小元素的索引
 
-        
-        for (int j = low; j <= high - 1; j++) {// 遍历数组并将小于基准的元素移到左边
+        for (int j = low; j <= high - 1; j++) { // 遍历数组并将小于基准的元素移到左边
             if (arr[j] < pivot) {
                 i++; // 增加较小元素的索引
                 swap(&arr[i], &arr[j]); // 交换当前元素与较小元素
@@ -25,7 +25,7 @@ void quickSort(int arr[], int low, int high, int* swapCount) {
         (*swapCount)++;
         int pi = i + 1;
 
-        quickSort(arr, low, pi - 1, swapCount);// 递归地对左右子数组进行快速排序
+        quickSort(arr, low, pi - 1, swapCount); // 递归地对左右子数组进行快速排序
         quickSort(arr, pi + 1, high, swapCount);
     }
 }
@@ -87,10 +87,12 @@ int menu() {
 int main() {
     int choice;
     int n;
-    int arr[n];
+
     // 输入数组中的元素数量
     printf("请输入数组中的元素数量: ");
     scanf("%d", &n);
+
+    int arr[n];
 
     // 输入数组中的元素
     printf("请输入数组中的元素:\n");
@@ -99,7 +101,7 @@ int main() {
     }
 
     do {
-        choice = menu();// 从菜单中获取用户选择
+        choice = menu(); // 从菜单中获取用户选择
         switch (choice) {
             case 1:
                 int key;
@@ -107,7 +109,11 @@ int main() {
                 int result = 0;
                 // 输入要查找的元素
                 printf("请输入要查找的元素: ");
-                scanf("%d", &key);
+                if (scanf("%d", &key) != 1) {
+                    printf("无效的输入，请输入一个整数。\n");
+                    while (getchar() != '\n'); // 清除缓冲区
+                    break;
+                }
                 // 首先使用快速排序对数组进行排序
                 quickSort(arr, 0, n - 1, &swapCountQuick);
                 printf("快速排序后的数组: \n");
