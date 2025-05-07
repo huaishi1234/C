@@ -7,26 +7,25 @@ void swap(int* a, int* b) {
     *b = t;
 }
 
-// 快速排序函数（包含分区逻辑）
+// 快速排序函数
 void quickSort(int arr[], int low, int high, int* swapCount) {
-    if (low < high) {
-        int pivot = arr[high];
-        int i = (low - 1);
+    if (low < high) {  
+        int pivot = arr[high];// 选择最后一个元素作为标准
+        int i = (low - 1); // 较小元素的索引
 
-        // 分区过程
-        for (int j = low; j <= high - 1; j++) {
+        
+        for (int j = low; j <= high - 1; j++) {// 遍历数组并将小于基准的元素移到左边
             if (arr[j] < pivot) {
-                i++;
-                swap(&arr[i], &arr[j]);
+                i++; // 增加较小元素的索引
+                swap(&arr[i], &arr[j]); // 交换当前元素与较小元素
                 (*swapCount)++;
             }
         }
-        swap(&arr[i + 1], &arr[high]);
+        swap(&arr[i + 1], &arr[high]); // 将基准放到正确的位置
         (*swapCount)++;
         int pi = i + 1;
 
-        // 递归地对左右子数组进行快速排序
-        quickSort(arr, low, pi - 1, swapCount);
+        quickSort(arr, low, pi - 1, swapCount);// 递归地对左右子数组进行快速排序
         quickSort(arr, pi + 1, high, swapCount);
     }
 }
@@ -34,11 +33,11 @@ void quickSort(int arr[], int low, int high, int* swapCount) {
 // 冒泡排序函数
 void bubbleSort(int arr[], int n, int* swapCount, int* passCount) {
     int i, j;
-    for (i = 0; i < n-1; i++) {
+    for (i = 0; i < n-1; i++) { // 控制次数
         (*passCount)++;
-        for (j = 0; j < n-i-1; j++) {
+        for (j = 0; j < n-i-1; j++) { // 每趟比较相邻元素
             if (arr[j] > arr[j+1]) {
-                swap(&arr[j], &arr[j+1]);
+                swap(&arr[j], &arr[j+1]); // 如果顺序不对则交换
                 (*swapCount)++;
             }
         }
@@ -58,18 +57,18 @@ int binarySearch(int arr[], int size, int key) {
     int right = size - 1;
 
     while (left <= right) {
-        int mid = left + (right - left) / 2;
+        int mid = left + (right - left) / 2; // 计算中间位置
 
         if (arr[mid] == key)
-            return mid;
+            return mid; // 如果找到返回索引
 
         if (arr[mid] < key)
-            left = mid + 1;
+            left = mid + 1; // 在右半部分继续查找
         else
-            right = mid - 1;
+            right = mid - 1; // 在左半部分继续查找
     }
 
-    return -1; // 关键字未找到
+    return -1; // 未找到返回
 }
 
 // 显示菜单并获取用户选择
@@ -88,12 +87,10 @@ int menu() {
 int main() {
     int choice;
     int n;
-
+    int arr[n];
     // 输入数组中的元素数量
     printf("请输入数组中的元素数量: ");
     scanf("%d", &n);
-
-    int arr[n];
 
     // 输入数组中的元素
     printf("请输入数组中的元素:\n");
@@ -102,21 +99,20 @@ int main() {
     }
 
     do {
-        // 从菜单中获取用户选择
-        choice = menu();
-
+        choice = menu();// 从菜单中获取用户选择
         switch (choice) {
             case 1:
                 int key;
+                int swapCountQuick = 0;
+                int result = 0;
                 // 输入要查找的元素
                 printf("请输入要查找的元素: ");
                 scanf("%d", &key);
                 // 首先使用快速排序对数组进行排序
-                int swapCountQuick = 0;
                 quickSort(arr, 0, n - 1, &swapCountQuick);
                 printf("快速排序后的数组: \n");
                 printArray(arr, n);
-                int result = binarySearch(arr, n, key);
+                result = binarySearch(arr, n, key);
                 if (result != -1)
                     printf("元素在索引 %d 处找到\n", result);
                 else
@@ -152,7 +148,6 @@ int main() {
 
     return 0;
 }
-
 
 
 
